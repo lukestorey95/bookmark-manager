@@ -1,10 +1,14 @@
 # Databases
 
-## User Story
+## User Stories
 ```
 As a user
 To be able to see my bookmarks
 I'd like to see a list of my bookmarks
+
+As a user
+To be able to save a bookmark for later
+I want be able to add a bookmark to my bookmarks
 ```
 <br>
 
