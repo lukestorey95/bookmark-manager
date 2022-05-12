@@ -31,9 +31,45 @@ describe Bookmark do
       expect(bookmark.url).to eq 'http://www.example.org'
       expect(bookmark.title).to eq 'Example title'
     end
+
+    it 'does not create a new bookmark if the URL is not valid' do
+      Bookmark.create(url: 'not a url', title: 'title')
+      expect(Bookmark.all).to be_empty
+    end
+  end
+
+  describe '.delete' do
+    it 'deletes the specified bookmark' do
+      bookmark = Bookmark.create(url: 'https://www.reddit.com/', title: 'Reddit')
+      
+      Bookmark.delete(id: bookmark.id)
+
+      expect(Bookmark.all.length).to eq 0
+    end
+  end
+
+  describe '.update' do
+    it 'updates the specified bookmark' do
+      bookmark = Bookmark.create(url: 'https://www.reddit.com/', title: 'Reddit')
+      updated_bookmark = Bookmark.update(id: bookmark.id, url: 'https://www.beddit.com/', title: 'Beddit')
+
+      expect(updated_bookmark).to be_a Bookmark
+      expect(updated_bookmark.id).to eq bookmark.id
+      expect(updated_bookmark.title).to eq 'Beddit'
+      expect(updated_bookmark.url).to eq 'https://www.beddit.com/'
+    end
+  end
+
+  describe '.find' do
+    it 'finds the specified bookmark' do
+      bookmark = Bookmark.create(url: 'https://www.reddit.com/', title: 'Reddit')
+
+      found_bookmark = Bookmark.find(id: bookmark.id)
+
+      expect(found_bookmark).to be_a Bookmark
+      expect(found_bookmark.id).to eq bookmark.id
+      expect(found_bookmark.title).to eq 'Reddit'
+      expect(found_bookmark.url).to eq 'https://www.reddit.com/'
+    end
   end
 end
-
-# Test drive a refactor of the code to use a Model, that returns the list of bookmarks.
-# You'll probably want to create a Bookmark model that responds to the class method .all with a hard-coded array of Bookmark instances.
-# # for instance method, . for class methods in describe fields
